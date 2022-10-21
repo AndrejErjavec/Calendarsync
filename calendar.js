@@ -6,12 +6,22 @@ import fetch from 'node-fetch';
 import puppeteer from 'puppeteer-core';
 import fs from 'fs';
 import path from 'path';
+import * as dotenv from 'dotenv';
+
+import {Blob} from 'buffer';
+import FileSaver from 'file-saver';
+
+const filterIds = [
+  '0;118,78,77,51;0;0;',
+  '0;18;0;0;',
+  '0;70;0;0;'
+]
 
 const app = express();
 
 const port = process.env.PORT || 8080;
 const host = process.env.HOST || 'localhost';
-const browser_path = process.env.BROWSER_PATH;
+const browser_path = process.env.BROWSER_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 if (!browser_path) {
   throw new Error("Path to the browser must be specified");
 }
@@ -46,7 +56,7 @@ function setupDownloadHook(page, cookies) {
     page.on('request', async request => {
       console.log(request.url());
 
-      if (request.url() === 'https://www.wise-tt.com/wtt_um_feri/TextViewer') {
+      if (request.url() === 'https://www.wise-tt.com/wtt_up_famnit/TextViewer') {
         const response = await fetch(request.url(), {
           headers: {
             ...request.headers(),
@@ -66,7 +76,7 @@ async function fetchCalendar(filterId) {
   const browser = await puppeteer.launch({executablePath: browser_path});
   try {
     const page = await browser.newPage();
-    await page.goto(`https://www.wise-tt.com/wtt_um_feri/index.jsp?filterId=${filterId}`);
+    await page.goto(`https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=${filterId}`);
 
     await page.setRequestInterception(true);
     const cookies = await page.cookies();
@@ -91,6 +101,46 @@ async function fetchCalendar(filterId) {
   }
 }
 
+const fetchAll = async (filterIds) => {
+  const calendars = [];
+  await Promise.all(filterIds.map(async (filterId) => {
+    let cal = await fetchCalendar(filterId);
+    calendars.push(cal);
+  }))
+  return calendars;
+}
+
+const formatCalendars = (calendars) => {
+  let output = "";
+  for (let i = 0; i < calendars.length; i++) {
+    if (i != 0) {
+      // calendars[i] = calendars[i].replace('BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:WISE TIMETABLE\nX-WR-TIMEZONE:Europe/Ljubljana', '');
+      calendars[i] = calendars[i].replace('BEGIN:VCALENDAR', '');
+      calendars[i] = calendars[i].replace('VERSION:2.0', '');
+      calendars[i] = calendars[i].replace('PRODID:WISE TIMETABLE', '');
+      calendars[i] = calendars[i].replace('X-WR-TIMEZONE:Europe/Ljubljana', '');
+    }
+    if (i != calendars.length - 1) {
+      calendars[i] = calendars[i].replace('END:VCALENDAR', '');
+    }
+    output += calendars[i];
+  }
+  return output;
+}
+
+const getIcal = async (filterIds) => {
+  const calendars = await fetchAll(filterIds);
+  const formatted = formatCalendars(calendars);
+  return formatted;
+}
+
+const saveTxt = (text) => {
+  fs.writeFile('calendars.txt', text, err => {
+    if (err) console.log(err);
+    return;
+  })
+}
+
 app.get('/', (req, res) => { 
   res.redirect('https://github.com/brokenpylons/Calendar');
 });
@@ -103,13 +153,8 @@ app.get('/up', (req, res) => {
 app.get('/calendar', async (req, res) => {
   res.set('content-type', 'text/plain');
 
-  if (!('filterId' in req.query)) {
-    res.sendStatus(400);
-    return;
-  }
-
   try {
-    const data = await fetchCalendar(req.query.filterId);
+    const data = await getIcal(filterIds);
     res.send(data);
   } catch(e) {
     console.log(e);
