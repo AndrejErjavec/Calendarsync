@@ -20,8 +20,8 @@ const filterIds = [
 const app = express();
 
 const port = process.env.PORT || 8080;
-const host = process.env.HOST || 'localhost';
-const browser_path = process.env.BROWSER_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const host = process.env.HOST || '192.168.64.11';
+const browser_path = process.env.BROWSER_PATH || '/usr/bin/google-chrome';
 if (!browser_path) {
   throw new Error("Path to the browser must be specified");
 }
@@ -73,7 +73,8 @@ function setupDownloadHook(page, cookies) {
 }
 
 async function fetchCalendar(filterId) {
-  const browser = await puppeteer.launch({executablePath: browser_path});
+  const browser = await puppeteer.launch({executablePath: browser_path, headless: true, args: ['--no-sandbox']
+});
   try {
     const page = await browser.newPage();
     await page.goto(`https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=${filterId}`);
