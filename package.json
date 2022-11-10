@@ -25,7 +25,7 @@
   "scripts": {
     "start": "node calendar.js",
     "dev": "nodemon calendar.js",
-    "prod": "forever calendar.js"
+    "prod": "forever start calendar.js"
   },
   "repository": {
     "type": "git",
