@@ -1,21 +1,36 @@
 {
   "name": "calendar",
   "version": "1.1.0",
-  "description": "",
+  "description": "![GitHub](https://img.shields.io/github/license/brokenpylons/Calendar.svg) ![Uptime Robot status](https://img.shields.io/uptimerobot/status/m782317712-2ae246eb8b50066d57d5fc80.svg)",
   "main": "calendar.js",
   "author": "",
   "license": "ISC",
-  "bin": "./calendar.js",
+  "bin": {
+    "calendar": "calendar.js"
+  },
   "type": "module",
-
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "node-fetch": "^3.1.0",
+    "nodemin": "^1.0.1",
+    "nodemon": "^2.0.20",
     "puppeteer-core": "^11.0.0"
   },
-
   "devDependencies": {
     "eslint": "^6.8.0"
-  }
+  },
+  "scripts": {
+    "start": "node calendar.js",
+    "dev": "nodemon calendar.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brokenpylons/Calendar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brokenpylons/Calendar/issues"
+  },
+  "homepage": "https://github.com/brokenpylons/Calendar#readme"
 }
