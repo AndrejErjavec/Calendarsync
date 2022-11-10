@@ -4,9 +4,9 @@ import fetch from 'node-fetch';
 import puppeteer from 'puppeteer-core';
 import fs from 'fs';
 import {deleteEventOccurances} from './icalutils/ical.js';
+import path from 'path';
 import * as dotenv from 'dotenv'
 dotenv.config()
-import path from 'path';
 
 const filterIds = [
   '0;118,78,77,51;0;0;',
@@ -84,8 +84,7 @@ async function fetchCalendar(filterId) {
   try {
     const page = await browser.newPage();
     await page.goto(`https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=${filterId}`);
-    await page.goto(`https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=${filterId}`);
-
+  
     await page.setRequestInterception(true);
     const cookies = await page.cookies();
     const download = setupDownloadHook(page, cookies);
