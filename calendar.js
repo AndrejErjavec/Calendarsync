@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import express from 'express';
 import morgan from 'morgan';
 import fetch from 'node-fetch';
@@ -85,6 +83,7 @@ async function fetchCalendar(filterId) {
 });
   try {
     const page = await browser.newPage();
+    await page.goto(`https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=${filterId}`);
     await page.goto(`https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=${filterId}`);
 
     await page.setRequestInterception(true);

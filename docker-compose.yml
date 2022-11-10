@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  calendar:
+    restart: always
+    container_name: 'calendar_sync'
+    build: .
+    ports: 
+      - '8080:8080'
