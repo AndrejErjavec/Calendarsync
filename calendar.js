@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import fetch from 'node-fetch';
 import puppeteer from 'puppeteer-core';
 import fs from 'fs';
-import {deleteEventOccurances} from './icalutils/ical.js';
+import {deleteEventOccurances, getEventsTitles} from './icalutils/ical.js';
 import path from 'path';
 import * as dotenv from 'dotenv'
 dotenv.config()
@@ -132,14 +132,21 @@ const formatCalendars = (calendars) => {
     }
     output += calendars[i];
   }
-  output = deleteEventOccurances(output, subjects);
   return output;
 }
 
 const getIcal = async (filterIds) => {
   const calendars = await fetchAll(filterIds);
   const formatted = formatCalendars(calendars);
-  return formatted;
+  const filtered = deleteEventOccurances(output, subjects);
+  return filtered;
+}
+
+const getUniqueTitles = async (filterIds) => {
+  const calendars = await fetchAll(filterIds);
+  const formatted = formatCalendars(calendars);
+  const eventTitles = getEventsTitles(formatted);
+  return eventTitles;
 }
 
 const saveTxt = (text) => {
@@ -157,6 +164,16 @@ app.get('/up', (req, res) => {
   res.set('content-type', 'text/plain');
   res.send('yes');
 });
+
+app.get('/titles', async (req, res) => {
+  try {
+    const data = await getUniqueTitles(filterIds);
+    res.send(data);
+  } catch(e) {
+    console.log(e);
+    res.sendStatus(404);
+  }
+})
 
 app.get('/calendar', async (req, res) => {
   res.set('content-type', 'text/plain');
