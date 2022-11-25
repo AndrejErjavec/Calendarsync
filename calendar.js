@@ -19,8 +19,10 @@ const subjects = [
   'Programsko inženirstvo',
   'Oblikovanje večpredstavnostnih vsebin (izbirni)',
   'Seminar - zaključna projektna naloga (RIN)',
-  'Geografski informacijski sistemi EN (Izbirni)',
-  'Statistika (VB, BF)'
+  'Geografski informacijski sistemi EN (Izbirni), P',
+  'Statistika (VB, BF), P',
+  'Statistika (VB, BF), SV',
+  'Statistika (VB, BF), LV'
 ]
 
 const app = express(); 
@@ -138,7 +140,7 @@ const formatCalendars = (calendars) => {
 const getIcal = async (filterIds) => {
   const calendars = await fetchAll(filterIds);
   const formatted = formatCalendars(calendars);
-  const filtered = deleteEventOccurances(output, subjects);
+  const filtered = deleteEventOccurances(formatted, subjects);
   return filtered;
 }
 
