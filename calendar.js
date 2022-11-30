@@ -111,6 +111,7 @@ async function fetchCalendar(filterId) {
 }
 
 const fetchAll = async (filterIds) => {
+  console.log(filterIds);
   const calendars = [];
   await Promise.all(filterIds.map(async (filterId) => {
     let cal = await fetchCalendar(filterId);
