@@ -190,5 +190,18 @@ app.get('/calendar', async (req, res) => {
   }
 });
 
+app.get('/all', async (req, res) => {
+  res.set('content-type', 'text/plain');
+
+  try {
+    const data = await fetchAll(filterIds);
+    const formatted = formatCalendars(data);
+    res.send(formatted);
+  } catch(e) {
+    console.log(e);
+    res.sendStatus(404);
+  }
+});
+
 app.listen(port);
 console.log(`Listening on port: ${port}`);

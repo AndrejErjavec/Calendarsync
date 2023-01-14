@@ -2,7 +2,8 @@ export const deleteEventOccurances = (ical, events) => {
     let lines = ical.split('\n');
     for (let i = 0; i < lines.length; i++) {
         if (lines[i].startsWith('DESCRIPTION:') && !events.some(event => lines[i].includes(event))) {
-            lines.splice(i-6, 9);
+            // delete event block
+            lines.splice(i-7, 9);
             i-=9;
         }
     }
