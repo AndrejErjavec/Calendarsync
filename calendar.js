@@ -9,9 +9,7 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 const filterIds = [
-  '0;118,78,77,51;0;0;',
-  '0;18;0;0;',
-  '0;70;0;0;'
+  '0;64,26,31;0;0'
 ]
 
 const subjects = [
@@ -22,7 +20,11 @@ const subjects = [
   'Geografski informacijski sistemi EN (Izbirni), P',
   'Statistika (VB, BF), P',
   'Statistika (VB, BF), SV',
-  'Statistika (VB, BF), LV'
+  'Statistika (VB, BF), LV',
+  'Menedžment informacijskih tehnologij',
+  'Podatkovno programiranje',
+  'Tor III',
+  'Sistemi za podporo odločanju'
 ]
 
 const app = express(); 
