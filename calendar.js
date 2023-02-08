@@ -23,7 +23,7 @@ const subjects = [
   'Statistika (VB, BF), LV',
   'Menedžment informacijskih tehnologij',
   'Podatkovno programiranje',
-  'Tor III',
+  'TOR III',
   'Sistemi za podporo odločanju'
 ]
 
