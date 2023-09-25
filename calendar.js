@@ -9,22 +9,15 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 const filterIds = [
-  '0;64,26,31;0;0'
+  '0;81;0;0'
 ]
 
 const subjects = [
-  'Kriptografija in računalniška varnost EN (izbirni)',
-  'Programsko inženirstvo',
-  'Oblikovanje večpredstavnostnih vsebin (izbirni)',
-  'Seminar - zaključna projektna naloga (RIN)',
-  'Geografski informacijski sistemi EN (Izbirni), P',
-  'Statistika (VB, BF), P',
-  'Statistika (VB, BF), SV',
-  'Statistika (VB, BF), LV',
-  'Menedžment informacijskih tehnologij',
-  'Podatkovno programiranje',
-  'TOR III',
-  'Sistemi za podporo odločanju'
+  'Podatkovne baze za masovne podatke',
+  'Izbrana poglavja iz vzporednega programiranja',
+  'Računalniški raziskovalni seminar',
+  'Izbrana poglavja iz teorije algoritmov',
+  'Izbrana poglavja iz teoretičnih osnov računalništva'
 ]
 
 const app = express(); 
