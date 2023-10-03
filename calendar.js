@@ -17,12 +17,13 @@ const subjects = [
   'Izbrana poglavja iz vzporednega programiranja',
   'Računalniški raziskovalni seminar',
   'Izbrana poglavja iz teorije algoritmov',
-  'Izbrana poglavja iz teoretičnih osnov računalništva'
+  'Izbrana poglavja iz teoretičnih osnov računalništva',
+  'Izbrana poglavja iz obdelave slik'
 ]
 
 const app = express(); 
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 const browser_path = process.env.NODE_ENV === 'production' ? process.env.PROD_BROWSER_PATH : process.env.DEV_BROWSER_PATH;
 console.log(browser_path);
 if (!browser_path) {
