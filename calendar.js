@@ -1,7 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import fetch from 'node-fetch';
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 import fs from 'fs';
 import {deleteEventOccurances, getEventsTitles} from './icalutils/ical.js';
 import path from 'path';
@@ -24,11 +24,6 @@ const subjects = [
 const app = express(); 
 
 const port = process.env.PORT || 5000;
-const browser_path = process.env.NODE_ENV === 'production' ? process.env.PROD_BROWSER_PATH : process.env.DEV_BROWSER_PATH;
-console.log(browser_path);
-if (!browser_path) {
-  throw new Error("Path to the browser must be specified");
-}
 
 app.use(morgan('combined'));
 
@@ -77,8 +72,8 @@ function setupDownloadHook(page, cookies) {
 }
 
 async function fetchCalendar(filterId) {
-  const browser = await puppeteer.launch({executablePath: browser_path, headless: true, args: ['--no-sandbox']
-});
+  const browser = await puppeteer.launch({executablePath: 'google-chrome-stable', headless: true, args: ['--no-sandbox']});
+
   try {
     const page = await browser.newPage();
     await page.goto(`https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=${filterId}`);
