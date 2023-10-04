@@ -10,4 +10,4 @@ The "Wise Time Table" serves the iCalendar files in an disingenuous way. They op
 ## Solution
 This service downloads the iCalendar file on request and serves it as ```text/plain```.
 
-The code has been forked and chenged to fit my needs. I use docker to host small applications so I created a ```docker-compose.yml``` file that enables easy and quick deployment on environments using Docker and Docker Compose.
+The code has been forked and changed to fit my needs. I use Docker to host small applications so I created a ```docker-compose.yml``` file that enables easy and quick deployment on environments using Docker and Docker Compose.
