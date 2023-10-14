@@ -9,11 +9,12 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 const filterIds = [
-  '0;81;0;0'
+  '0;81;0;0',
+  '0;85;0;0'
 ]
 
 const subjects = [
-  'Podatkovne baze za masovne podatke',
+  'Podatkovni praktikum II',
   'Izbrana poglavja iz vzporednega programiranja',
   'Računalniški raziskovalni seminar',
   'Izbrana poglavja iz teorije algoritmov',
