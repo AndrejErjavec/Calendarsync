@@ -43,7 +43,7 @@ RUN npm init -y &&  \
 # Run everything after as non-privileged user.
 USER pptruser
 
-COPY . .
+COPY . /calendarsync
 
 EXPOSE 5000
 CMD ["node", "calendar.js"]
