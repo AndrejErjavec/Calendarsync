@@ -9,17 +9,16 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 const filterIds = [
-  '0;81;0;0',
-  '0;85;0;0'
+  '0;81;0;0;'
 ]
 
 const subjects = [
-  'Podatkovni praktikum II',
-  'Izbrana poglavja iz vzporednega programiranja',
+  'Projektni seminar PRIN',
+  'Verjetnost in statistika v tehniki in naravoslovju',
   'Računalniški raziskovalni seminar',
-  'Izbrana poglavja iz teorije algoritmov',
-  'Izbrana poglavja iz teoretičnih osnov računalništva',
-  'Izbrana poglavja iz obdelave slik'
+  'Inteligentni sistemi',
+  'Računalniške družbene vede',
+  'Izbrana poglavja iz vizualizacije podatkov'
 ]
 
 const app = express(); 
