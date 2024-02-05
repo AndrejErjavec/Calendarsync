@@ -3,29 +3,47 @@ import morgan from 'morgan';
 import fetch from 'node-fetch';
 import puppeteer from 'puppeteer';
 import fs from 'fs';
-import {deleteEventOccurances, getEventsTitles} from './icalutils/ical.js';
-import path from 'path';
+import yaml from 'js-yaml'
 import * as dotenv from 'dotenv'
 dotenv.config()
-
-const filterIds = [
-  '0;81;0;0;'
-]
-
-const subjects = [
-  'Projektni seminar PRIN',
-  'Verjetnost in statistika v tehniki in naravoslovju',
-  'Računalniški raziskovalni seminar',
-  'Inteligentni sistemi',
-  'Računalniške družbene vede',
-  'Izbrana poglavja iz vizualizacije podatkov'
-]
+import {deleteEventOccurances, getEventsTitles} from './icalutils/ical.js';
 
 const app = express(); 
-
 const port = process.env.PORT || 5000;
 
 app.use(morgan('combined'));
+
+const config = readOrCreateConfigFile();
+const urls = config?.calendar?.calendarURLs
+const subjects = config?.calendar?.subjects
+
+console.log(urls)
+console.log(subjects)
+
+function readOrCreateConfigFile() {
+  let config = null;
+  try {
+    config = yaml.load(fs.readFileSync('config/config.yml', 'utf8'));
+  } catch (e) {
+    console.log(e)
+    console.log("Config file not found. Creating... ")
+    const data = {
+      calendar: {
+        subjects: ['subject1', 'subject2', '...'],
+        calendarURLs : ['url1', 'url2', '...']
+      }
+    }
+
+    try {
+      fs.writeFileSync('config/config.yml', yaml.dump(data), 'utf8')
+      console.log("Config file created");
+    } catch(e) {
+      console.log("could not create config yaml file", e)
+    }
+  }
+  return config;
+}
+
 
 async function getTitles(page, filterId) {
   const subjectFilter = filterId.split(';', 4).pop();
@@ -71,16 +89,24 @@ function setupDownloadHook(page, cookies) {
   });
 }
 
-async function fetchCalendar(filterId) {
-  const browser = await puppeteer.launch({executablePath: 'google-chrome-stable', headless: true, args: ['--no-sandbox']});
+async function fetchCalendar(url) {
+  const browser = await puppeteer.launch({executablePath: 'google-chrome-stable', headless: 'new', args: ['--no-sandbox']});
 
   try {
     const page = await browser.newPage();
-    await page.goto(`https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=${filterId}`);
+    await page.goto(url);
   
     await page.setRequestInterception(true);
     const cookies = await page.cookies();
     const download = setupDownloadHook(page, cookies);
+
+    const url1 = new URL(url)
+    const params = new URLSearchParams(url1.search);
+    const filterId = params.get('filterId')
+
+    if (!filterId) {
+      return null;
+    }
     const titles = await getTitles(page, filterId);
 
     await clickExport(page);
@@ -101,12 +127,13 @@ async function fetchCalendar(filterId) {
   }
 }
 
-const fetchAll = async (filterIds) => {
-  console.log(filterIds);
+const fetchAll = async (urls) => {
   const calendars = [];
-  await Promise.all(filterIds.map(async (filterId) => {
-    let cal = await fetchCalendar(filterId);
-    calendars.push(cal);
+  await Promise.all(urls.map(async (url) => {
+    let cal = await fetchCalendar(url);
+    if (cal != null) {
+      calendars.push(cal);
+    }
   }))
   return calendars;
 }
@@ -129,15 +156,15 @@ const formatCalendars = (calendars) => {
   return output;
 }
 
-const getIcal = async (filterIds) => {
-  const calendars = await fetchAll(filterIds);
+const getIcal = async (urls) => {
+  const calendars = await fetchAll(urls);
   const formatted = formatCalendars(calendars);
   const filtered = deleteEventOccurances(formatted, subjects);
   return filtered;
 }
 
-const getUniqueTitles = async (filterIds) => {
-  const calendars = await fetchAll(filterIds);
+const getUniqueTitles = async (urls) => {
+  const calendars = await fetchAll(urls);
   const formatted = formatCalendars(calendars);
   const eventTitles = getEventsTitles(formatted);
   return eventTitles;
@@ -173,21 +200,8 @@ app.get('/calendar', async (req, res) => {
   res.set('content-type', 'text/plain');
 
   try {
-    const data = await getIcal(filterIds);
-    res.send(data);
-  } catch(e) {
-    console.log(e);
-    res.sendStatus(404);
-  }
-});
-
-app.get('/all', async (req, res) => {
-  res.set('content-type', 'text/plain');
-
-  try {
-    const data = await fetchAll(filterIds);
-    const formatted = formatCalendars(data);
-    res.send(formatted);
+    const data = await getIcal(urls);
+    res.status(200).send(data);
   } catch(e) {
     console.log(e);
     res.sendStatus(404);
