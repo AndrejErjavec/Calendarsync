@@ -17,9 +17,10 @@ The code has been forked and changed to fit my needs. I use Docker to host small
 
     `mkdir ./calendar-sync && cd ./calendar-sync`
 
-2. Download `docker-compose.yml` file from [GitHub](https://github.com/AndrejErjavec/calendar-sync/blob/master/docker-compose.yml)
+2. Download `docker-compose.yml` file
+    `wget https://github.com/AndrejErjavec/calendar-sync/releases/download/v1.0.0/docker-compose.yml`
 
-3. Start the container
+4. Start the container
 
     `docker-compose up -d`
 
