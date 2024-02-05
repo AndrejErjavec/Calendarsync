@@ -2,10 +2,9 @@ version: '3.9'
 
 services:
   calendar:
-    # image: ghcr.io/andrejerjavec/calendar-sync
+    image: ghcr.io/andrejerjavec/calendar-sync
     restart: always
     container_name: 'calendar-sync'
-    build: .
     ports: 
       - '5000:5000'
     volumes:
