@@ -1,0 +1,16 @@
+name: Docker publish image
+
+on:
+  push
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: build and push
+        run: |
+          docker login ghcr.io --username AndrejErjavec --password ${{ secrets.GH_TOKEN_GHCR }}
+          docker build . -t andrejerjavec/calendar-sync:latest
+          docker push ghcr.io/andrejerjavec/calendar-sync:latest
