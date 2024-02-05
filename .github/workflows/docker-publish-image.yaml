@@ -12,6 +12,5 @@ jobs:
       - name: build and push
         run: |
           docker login ghcr.io --username AndrejErjavec --password ${{ secrets.GH_TOKEN_GHCR }}
-          docker build . -t andrejerjavec/calendar-sync:latest
-          docker image ls
+          docker build . -t ghcr.io/andrejerjavec/calendar-sync:latest
           docker push ghcr.io/andrejerjavec/calendar-sync:latest
