@@ -23,12 +23,12 @@ The code has been forked and changed to fit my needs. I use Docker to host small
 
 4. Start the container
 
-    `docker-compose up -d`
+    `docker-compose up -d` or `docker compose up -d`
 
 When the app first starts it automatically creates a config file `config/config.yml`. Before using the app, modify the file by inserting the names of subjects and URLs to calendar(s) - you can add more.
 
 Upon updating the config file, restart the container
 
-`docker-compose restart`
+`docker-compose restart` or `docker compose restart`
 
 
