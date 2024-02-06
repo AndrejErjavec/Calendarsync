@@ -1,7 +1,11 @@
 name: Docker publish image
 
 on:
-  push
+  push:
+    paths-ignore:
+      - 'README.md'
+      - '.gitignore'
+      - '.github/**'
 
 jobs:
   build_and_publish:
