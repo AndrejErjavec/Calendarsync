@@ -1,10 +1,9 @@
 calendar:
   subjects:
-    - 'Projektni seminar PRIN'
-    - 'Verjetnost in statistika v tehniki in naravoslovju'
-    - 'Računalniški raziskovalni seminar'
-    - 'Inteligentni sistemi'
-    - 'Računalniške družbene vede'
-    - 'Izbrana poglavja iz vizualizacije podatkov'
+    - "Matematični praktikum"
+    - "Računalniški raziskovalni seminar"
+    - "Podatkovno inženirstvo in distribuirani informacijski sistemi"
+  exclude:
+    - "Matematični praktikum EN"
   calendarURLs:
-    - 'https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=0;52,82;0;0;'
+    - "https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=0;79,39,40,148,149,76,77,73,72;0;0;"
