@@ -17,7 +17,6 @@ const config = readOrCreateConfigFile();
 const urls = config?.calendar?.calendarURLs;
 const subjects = config?.calendar?.subjects;
 const excluded = config?.calendar?.exclude;
-console.log(excluded);
 
 function readOrCreateConfigFile() {
   let config = null;
