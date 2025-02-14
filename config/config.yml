@@ -1,9 +1,10 @@
 calendar:
   subjects:
-    - "Matematični praktikum"
+    - "Projektni seminar PRIN"
     - "Računalniški raziskovalni seminar"
-    - "Podatkovno inženirstvo in distribuirani informacijski sistemi"
+    - "Seminar (PBI)"
   exclude:
     - "Matematični praktikum EN"
   calendarURLs:
-    - "https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=0;79,39,40,148,149,76,77,73,72;0;0;"
+    - "https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=0;20,65,89;0;0;"
+    - "https://www.wise-tt.com/wtt_up_famnit/index.jsp?filterId=0;47,108,185,187,111,181;0;0;"

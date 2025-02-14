@@ -1,11 +1,9 @@
-version: "3.9"
-
 services:
   calendar:
     build: .
     restart: always
     container_name: "calendar-sync"
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
       - ./config:/app/config/
